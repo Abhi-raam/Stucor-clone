@@ -1,0 +1,81 @@
+<section class="btm-footer">
+  <main>
+    <div class="container">
+      <div class="row d-flex justify-content-end pt-4">
+        <a href="/admin/add-news" target="_blank"><button
+            type="button"
+            class="btn btn-primary"
+          >Add News</button></a>
+      </div>
+      <div class="text-center">
+        <h3>Total News</h3>
+      </div>
+      <div class="row pt-5 d-flex justify-content-center">
+        <div class="col-md-12">
+          <table class="table table-bordered text-center form">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">No.</th>
+                <th scope="col">Name</th>
+                <th scope="col">News code</th>
+                <th scope="col">News Description</th>
+                <th scope="col">Details File</th>
+                <th scope="col">Date</th>
+                <th scope="col">Edit/Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each news}}
+                <tr>
+                  <th scope="row">1</th>
+                  <td>{{this.NEWS_NAME}}</td>
+                  <td>{{this.NEWS_CODE}}</td>
+                  <td><a target="_blank" class="text-dark" href="/news/{{this.NEWS_CODE}}.pdf">{{this.NEWS_CODE}}.pdf</a></td>
+                  <td>{{this.NEWS_DESCRIPTION}}</td>
+                  <td>{{this.NEWS_DATE}}</td>
+                  <td>
+                    <a href="" class="btn btn-primary mt-3">Edit</a>
+                    <a
+                      href="/admin/delete-news/{{this._id}}/{{this.NEWS_CODE}}"
+                      class="btn btn-danger mt-3"
+                      onclick="return confirm('Are you sure you want to delete {{this.NEWS_NAME}}')"
+                    >Delete</a>
+                  </td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {{!-- <div class="pt-5">
+            <table class="table form">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">No.</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Details</th>
+                        <th scope="col">Date</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each news}}
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>{{this.NEWS_NAME}}</td>
+                        <td>{{this.NEWS_DESCRIPTION}}</td>
+                        <td>{{this.NEWS_DATE}}</td>
+                        <td class="row">
+                            <a href="" class="btn btn-danger ">Delete</a>
+                            <a href="" class="btn btn-primary mt-3">Edit</a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+
+        </div> --}}
+    </div>
+  </main>
+
+</section>

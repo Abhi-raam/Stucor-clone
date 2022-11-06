@@ -1,0 +1,519 @@
+var db = require("../config/connection");
+var express = require("express");
+var fs = require('fs')
+const { Cse13_Sem02, Cse13_Sem01, CseSem01 } = require("../config/collections");
+const { getAllCseSem_01, getAllCseSem_02 } = require("../helpers/news-helpers");
+var router = express.Router();
+var helpers = require("../helpers/news-helpers");
+const { response } = require("express");
+const { question } = require("readline-sync");
+const { fstat } = require("fs");
+/* GET home page. */
+router.get("/", function (req, res, next) {
+  res.render("admin/admin-index", { admin: true });
+});
+
+router.get("/view-news", (req, res, next) => {
+  helpers.getAllNews().then((news) => {
+    // console.log(news);
+    res.render("admin/view-news", { admin: true, news });
+  });
+});
+
+router.get("/add-news", (req, res, next) => {
+  res.render("admin/add-news", { admin: true });
+});
+
+router.post("/add-news", (req, res, next) => {
+  helpers.addNews(req.body, (newsCode) => {
+    let file = req.files.NEWS_FILE
+    // console.log(req.body.NEWS_CODE);
+    // let description = req.body.NEWS_DESCRIPTION
+    // console.log(description);
+    file.mv('./public/news/'+newsCode+'.pdf',(err,data)=>{
+      if(!err){
+        res.render("admin/add-news", { admin: true });
+      }
+      else{
+        console.log(err);
+      }
+    })
+  });
+});
+
+router.get("/delete-news/:id/:code", (req, res) => {
+  let newsId = req.params.id;
+  let newsCode = req.params.code
+  helpers.deleteNews(newsId).then((response) => {
+    fs.unlink('./public/news/'+newsCode+'.pdf',()=>{
+      console.log('Deleted file is : '+newsCode+'.pdf');
+    })
+    res.redirect("/admin/view-news");
+  });
+});
+
+router.get("/view-regulation", (req, res, next) => {
+  helpers.getAllRegulation().then((regulation) => {
+    // console.log(regulation);
+    res.render("admin/regulation/view-regulation", { admin: true, regulation });
+  });
+});
+
+router.get("/add-regulation", (req, res, next) => {
+  res.render("admin/regulation/add-regulation", { admin: true });
+});
+
+router.post("/add-regulation", (req, res, next) => {
+  // console.log(req.body);
+  helpers.addRegulation(req.body, (result) => {
+    res.render("admin/regulation/add-regulation", { admin: true });
+  });
+});
+
+router.get("/delete-regulations/:id", (req, res) => {
+  let RegId = req.params.id;
+  helpers.deleteRegulation(RegId).then((response) => {
+    res.redirect("/admin/view-regulation");
+  });
+});
+
+router.get("/reg-13-notes", (req, res) => {
+  res.render("admin/notes/reg-13/reg-13-notes", { admin: true });
+});
+
+router.get("/reg-17-notes", (req, res) => {
+  res.render("admin/notes/reg-17/reg-17-notes", { admin: true });
+});
+
+//                          <------------CSE------------>
+//<----cse sem 01---->
+router.get("/cse/sem-01", (req, res, next) => {
+  helpers.viewCseSem01().then((csesem01) => {
+    res.render("admin/notes/reg-13/cse/sem-01/sem-01-notes",{admin: true,csesem01});
+  });
+});
+
+router.get("/cse/add/sem-01-notes", (req, res) => {
+  res.render("admin/notes/reg-13/cse/sem-01/add-sem-01-cse", { admin: true });
+});
+
+router.post("/cse/add/sem-01-notes", (req, res) => {
+  // console.log(req.body)
+  helpers.addCseSem01(req.body, (code) => {
+    let notes = req.files.Notes;
+    let question = req.files.Questions;
+    notes.mv('./public/notes/cse/sem01/'+code+'-note.pdf',(err,done)=>{
+      if(!err){
+        res.render("admin/notes/reg-13/cse/sem-01/add-sem-01-cse", { admin: true });
+      }
+      else{
+        console.log(err);
+      }
+    })
+    question.mv('./public/notes/cse/sem01/'+code+'-qp.pdf',(err,done)=>{
+      if(!err){
+        res.render("admin/notes/reg-13/cse/sem-01/add-sem-01-cse", { admin: true });
+      }
+      else{
+        console.log(err);
+      }
+    })
+  });
+});
+//  delete sem01 notes
+router.get("/delete-cse-sem01/:id/:subcode", (req, res) => {
+  let semId = req.params.id;
+  let subCode = req.params.subcode
+  helpers.deleteCseSem01(semId).then((response) => {
+    fs.unlink('./public/notes/cse/sem01/'+subCode+'-note.pdf',()=>{
+      console.log('Deleted file : '+subCode+'-note.pdf');
+    })
+    fs.unlink('./public/notes/cse/sem01/'+subCode+'-qp.pdf',()=>{
+      console.log('Deleted file : '+subCode+'-qp.pdf');
+    })
+    res.redirect("/admin/cse/sem-01");
+  });
+});
+
+//<----cse sem 02---->
+router.get("/cse/sem-02", (req, res) => {
+  //view cse sem02 notes
+  helpers.viewCseSem02().then((csesem02) => {
+    res.render("admin/notes/reg-13/cse/sem-02/sem-02-notes", {
+      admin: true,
+      csesem02,
+    });
+  });
+});
+
+router.get("/cse/add/sem-02-notes", (req, res) => {
+  res.render("admin/notes/reg-13/cse/sem-02/add-sem-02-cse", { admin: true });
+});
+
+router.post("/cse/add/sem-02-notes", (req, res) => {
+  //add cse sem02 notes
+  // console.log(req.body);
+  helpers.addCseSem02(req.body, (code) => {
+    let notes = req.files.Notes
+    let question = req.files.Questions
+    notes.mv('./public/notes/cse/sem02/'+code+'-note.pdf',(err,done)=>{
+      if(!err){
+        res.render("admin/notes/reg-13/cse/sem-02/add-sem-02-cse",{admin: true,})
+      }
+      else{
+        console.log(err);
+      }
+    })
+    question.mv('./public/notes/cse/sem02/'+code+'-qp.pdf',(err,done)=>{
+      if(!err){
+        res.render("admin/notes/reg-13/cse/sem-02/add-sem-02-cse",{admin: true,})
+      }
+      else{
+        console.log(err);
+      }
+    })
+  });
+});
+
+// delete sem02 notes
+router.get("/delete-cse-sem02/:id/:subcode", (req, res) => {
+  let semId = req.params.id;
+  let subCode = req.params.subcode
+  helpers.deleteCseSem02(semId).then((response) => {
+    fs.unlink('./public/notes/cse/sem02/'+subCode+'-note.pdf',()=>{
+      console.log('Deleted file :'+subCode+'-note.pdf');
+    })
+    fs.unlink('./public/notes/cse/sem02/'+subCode+'-qp.pdf',()=>{
+      console.log('Deleted file :'+subCode+'-qp.pdf');
+    })
+    res.redirect("/admin/cse/sem-02");
+  });
+});
+
+//<-----------cse sem 03--------->
+router.get("/cse/sem-03", (req, res) => {
+  //view notes
+  helpers.viewCseSem03().then((csesem03) => {
+    res.render("admin/notes/reg-13/cse/sem-03/sem-03-notes", {
+      admin: true,
+      csesem03,
+    });
+  });
+});
+
+router.get("/cse/add/sem-03-notes", (req, res) => {
+  res.render("admin/notes/reg-13/cse/sem-03/add-sem-03-cse", { admin: true });
+});
+
+router.post("/cse/add/sem-03-notes", (req, res) => {
+  helpers.addCseSem03(req.body, (code) => {
+    let note = req.files.Notes
+    let question = req.files.Questions
+    note.mv('./public/notes/cse/sem03/'+code+'-note.pdf',(err,done)=>{
+      if(!err){
+        res.render("admin/notes/reg-13/cse/sem-03/add-sem-03-cse", { admin: true });
+      }
+      else{
+        console.log(err);
+      }
+    })
+    question.mv('./public/notes/cse/sem03/'+code+'-qp.pdf',(err,done)=>{
+      if(!err){
+        res.render("admin/notes/reg-13/cse/sem-03/add-sem-03-cse", { admin: true });
+      }
+      else{
+        console.log(err);
+      }
+    })
+  });
+});
+//delete cse sem03
+router.get("/delete-cse-sem03/:id/:subcode", (req, res) => {
+  let semId = req.params.id;
+  let subCode = req.params.subcode
+  // console.log('subject code ===='+subCode);
+  helpers.deleteCseSem03(semId).then((response) => {
+    fs.unlink('./public/notes/cse/sem03/'+subCode+'-note.pdf',()=>{
+      console.log("Deleted file : "+subCode+'-note.pdf');
+    })
+    fs.unlink('./public/notes/cse/sem03/'+subCode+'-qp.pdf',()=>{
+      console.log('Deleted file is : '+subCode+'-qp.pdf');
+    })
+    res.redirect("/admin/cse/sem-03");
+  });
+});
+
+// <-------cse sem 04------->
+router.get("/cse/sem-04", (req, res) => {
+  //view notes
+    res.render("admin/notes/reg-13/cse/sem-04/sem-04-notes",{admin : true});
+})
+
+router.get('/cse/add/sem-04-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/cse/sem-04/add-sem-04-cse',{admin:true})
+})
+
+
+// <----------cse sem 05---------->
+router.get('/cse/sem-05',(req,res)=>{
+  res.render('admin/notes/reg-13/cse/sem-05/sem-05-notes',{admin : true})
+})
+
+router.get('/cse/add/sem-05-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/cse/sem-05/add-sem-05-cse',{admin:true})
+})
+
+// <----------cse sem 06---------->
+router.get('/cse/sem-06',(req,res)=>{
+  res.render('admin/notes/reg-13/cse/sem-06/sem-06-notes',{admin : true})
+})
+
+router.get('/cse/add/sem-06-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/cse/sem-06/add-sem-06-cse',{admin:true})
+})
+
+// <----------cse sem 07---------->
+router.get('/cse/sem-07',(req,res)=>{
+  res.render('admin/notes/reg-13/cse/sem-07/sem-07-notes',{admin : true})
+})
+
+router.get('/cse/add/sem-07-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/cse/sem-07/add-sem-07-cse',{admin:true})
+})
+
+
+// <----------cse sem 08---------->
+router.get('/cse/sem-08',(req,res)=>{
+  res.render('admin/notes/reg-13/cse/sem-08/sem-08-notes',{admin : true})
+})
+
+router.get('/cse/add/sem-08-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/cse/sem-08/add-sem-08-cse',{admin:true})
+})
+
+
+
+//               <----------CIVIL---------->
+// <----------civil sem 01---------->
+router.get('/civil/sem-01',(req,res)=>{
+  res.render('admin/notes/reg-13/civil/sem-01/sem-01-notes',{admin : true})
+})
+
+router.get('/civil/add/sem-01-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/civil/sem-01/add-sem-01-civil',{admin:true})
+})
+
+// <----------civil sem 02---------->
+router.get('/civil/sem-02',(req,res)=>{
+  res.render('admin/notes/reg-13/civil/sem-02/sem-02-notes',{admin : true})
+})
+
+router.get('/civil/add/sem-02-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/civil/sem-02/add-sem-02-civil',{admin:true})
+})
+
+// <----------civil sem 03---------->
+router.get('/civil/sem-03',(req,res)=>{
+  res.render('admin/notes/reg-13/civil/sem-03/sem-03-notes',{admin : true})
+})
+
+router.get('/civil/add/sem-03-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/civil/sem-03/add-sem-03-civil',{admin:true})
+})
+
+// <----------civil sem 04---------->
+router.get('/civil/sem-04',(req,res)=>{
+  res.render('admin/notes/reg-13/civil/sem-04/sem-04-notes',{admin : true})
+})
+
+router.get('/civil/add/sem-04-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/civil/sem-04/add-sem-04-civil',{admin:true})
+})
+
+// <----------civil sem 05---------->
+router.get('/civil/sem-05',(req,res)=>{
+  res.render('admin/notes/reg-13/civil/sem-05/sem-05-notes',{admin : true})
+})
+
+router.get('/civil/add/sem-05-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/civil/sem-05/add-sem-05-civil',{admin:true})
+})
+
+// <----------civil sem 06---------->
+router.get('/civil/sem-06',(req,res)=>{
+  res.render('admin/notes/reg-13/civil/sem-06/sem-06-notes',{admin : true})
+})
+
+router.get('/civil/add/sem-06-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/civil/sem-06/add-sem-06-civil',{admin:true})
+})
+
+// <----------civil sem 07---------->
+router.get('/civil/sem-07',(req,res)=>{
+  res.render('admin/notes/reg-13/civil/sem-07/sem-07-notes',{admin : true})
+})
+
+router.get('/civil/add/sem-07-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/civil/sem-07/add-sem-07-civil',{admin:true})
+})
+
+// <----------civil sem 08---------->
+router.get('/civil/sem-08',(req,res)=>{
+  res.render('admin/notes/reg-13/civil/sem-08/sem-08-notes',{admin : true})
+})
+
+router.get('/civil/add/sem-08-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/civil/sem-08/add-sem-08-civil',{admin:true})
+})
+
+
+//               <----------ECE---------->
+// <----------ece sem 01---------->
+router.get('/ece/sem-01',(req,res)=>{
+  res.render('admin/notes/reg-13/ece/sem-01/sem-01-notes',{admin : true})
+})
+
+router.get('/ece/add/sem-01-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/ece/sem-01/add-sem-01-ece',{admin:true})
+})
+
+// <----------ece sem 02---------->
+router.get('/ece/sem-02',(req,res)=>{
+  res.render('admin/notes/reg-13/ece/sem-02/sem-02-notes',{admin : true})
+})
+
+router.get('/ece/add/sem-02-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/ece/sem-02/add-sem-02-ece',{admin:true})
+})
+
+// <----------ece sem 03---------->
+router.get('/ece/sem-03',(req,res)=>{
+  res.render('admin/notes/reg-13/ece/sem-03/sem-03-notes',{admin : true})
+})
+
+router.get('/ece/add/sem-03-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/ece/sem-03/add-sem-03-ece',{admin:true})
+})
+
+// <----------civil sem 04---------->
+router.get('/ece/sem-04',(req,res)=>{
+  res.render('admin/notes/reg-13/ece/sem-04/sem-04-notes',{admin : true})
+})
+
+router.get('/ece/add/sem-04-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/ece/sem-04/add-sem-04-ece',{admin:true})
+})
+
+// <----------ece sem 05---------->
+router.get('/ece/sem-05',(req,res)=>{
+  res.render('admin/notes/reg-13/ece/sem-05/sem-05-notes',{admin : true})
+})
+
+router.get('/ece/add/sem-05-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/ece/sem-05/add-sem-05-ece',{admin:true})
+})
+
+// <----------ece sem 06---------->
+router.get('/ece/sem-06',(req,res)=>{
+  res.render('admin/notes/reg-13/ece/sem-06/sem-06-notes',{admin : true})
+})
+
+router.get('/ece/add/sem-06-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/ece/sem-06/add-sem-06-ece',{admin:true})
+})
+
+// <----------ece sem 07---------->
+router.get('/ece/sem-07',(req,res)=>{
+  res.render('admin/notes/reg-13/ece/sem-07/sem-07-notes',{admin : true})
+})
+
+router.get('/ece/add/sem-07-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/ece/sem-07/add-sem-07-ece',{admin:true})
+})
+
+// <----------ece sem 08---------->
+router.get('/ece/sem-08',(req,res)=>{
+  res.render('admin/notes/reg-13/ece/sem-08/sem-08-notes',{admin : true})
+})
+
+router.get('/ece/add/sem-08-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/ece/sem-08/add-sem-08-ece',{admin:true})
+})
+
+
+//               <----------MECH---------->
+// <----------mech sem 01---------->
+router.get('/mech/sem-01',(req,res)=>{
+  res.render('admin/notes/reg-13/mech/sem-01/sem-01-notes',{admin : true})
+})
+
+router.get('/mech/add/sem-01-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/mech/sem-01/add-sem-01-mech',{admin:true})
+})
+
+// <----------civil sem 02---------->
+router.get('/mech/sem-02',(req,res)=>{
+  res.render('admin/notes/reg-13/mech/sem-02/sem-02-notes',{admin : true})
+})
+
+router.get('/mech/add/sem-02-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/mech/sem-02/add-sem-02-mech',{admin:true})
+})
+
+// <----------mech sem 03---------->
+router.get('/mech/sem-03',(req,res)=>{
+  res.render('admin/notes/reg-13/mech/sem-03/sem-03-notes',{admin : true})
+})
+
+router.get('/mech/add/sem-03-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/mech/sem-03/add-sem-03-mech',{admin:true})
+})
+
+// <----------mech sem 04---------->
+router.get('/mech/sem-04',(req,res)=>{
+  res.render('admin/notes/reg-13/mech/sem-04/sem-04-notes',{admin : true})
+})
+
+router.get('/mech/add/sem-04-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/mech/sem-04/add-sem-04-mech',{admin:true})
+})
+
+// <----------mech sem 05---------->
+router.get('/mech/sem-05',(req,res)=>{
+  res.render('admin/notes/reg-13/mech/sem-05/sem-05-notes',{admin : true})
+})
+
+router.get('/mech/add/sem-05-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/mech/sem-05/add-sem-05-mech',{admin:true})
+})
+
+// <----------mech sem 06---------->
+router.get('/mech/sem-06',(req,res)=>{
+  res.render('admin/notes/reg-13/mech/sem-06/sem-06-notes',{admin : true})
+})
+
+router.get('/mech/add/sem-06-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/mech/sem-06/add-sem-06-mech',{admin:true})
+})
+
+// <----------mech sem 07---------->
+router.get('/mech/sem-07',(req,res)=>{
+  res.render('admin/notes/reg-13/mech/sem-07/sem-07-notes',{admin : true})
+})
+
+router.get('/mech/add/sem-07-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/mech/sem-07/add-sem-07-civil',{admin:true})
+})
+
+// <----------mech sem 08---------->
+router.get('/mech/sem-08',(req,res)=>{
+  res.render('admin/notes/reg-13/mech/sem-08/sem-08-notes',{admin : true})
+})
+
+router.get('/mech/add/sem-08-notes',(req,res)=>{
+  res.render('admin/notes/reg-13/mech/sem-08/add-sem-08-mech',{admin:true})
+})
+
+
+
+module.exports = router;

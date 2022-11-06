@@ -1,0 +1,38 @@
+<section class="btm-footer">
+        <div class="container">
+        {{!-- <div class="row d-flex justify-content-end pt-4">
+            <a href="/admin/add-regulation"><button type="button" class="btn btn-primary">Add Regulation</button></a>
+        </div> --}}
+        <div class="pt-4 text-center">
+            <h4 class="text-primary">TOTAL REGULATION</h4>
+        </div>
+        <div class="row pt-5 d-flex justify-content-center">
+            <div class="col-md-12">
+                <table class="table table-bordered text-center form">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Regulations</th>
+                            <th>Link</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each regulation}}
+                        <tr>
+                            <td>{{this.regulation}}</td>
+                            <td><a href=""> click here</a></td>
+                            <td>
+                                <a href="" class="btn btn-primary">Edit</a>
+                                <a href="/admin/delete-regulations/{{this._id}}" class="btn btn-danger" onclick="return confirm('Are you sure you eant to delete')">Delete</a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-end pt-4">
+            <a href="/admin/add-regulation" target="_blank"><button type="button" class="btn btn-primary">Add Regulation</button></a>
+        </div>
+    </div>
+</section>

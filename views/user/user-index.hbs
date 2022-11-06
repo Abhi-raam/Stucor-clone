@@ -1,0 +1,66 @@
+<section class="btm-footer">
+    <div class="container">
+        <div class="">
+            <div class=" m-3 align-item-center">
+                <h4 class="text-primary text-center">TN's Largest Educational Platform</h4>
+                <h5 class="text-center">Trusted bt 1.5 Milloin+ users</h5>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{{!-- choose category section --}}
+<section>
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-7 col-lg-5 col-10  pt-5">
+                <h3 class="text-center text-white bg-primary choose ">CHOOSE CATEGORIES</h3>
+            </div>
+        </div>
+    </div>
+    <div class="container container-fluid">
+        <div class="row  justify-content-center pt-5">
+            {{#each category}}
+            <div class="col-md-3 col-5  justify-content-center ">
+                <a href="{{this.cat_page}}"><img class="img-logo" src="{{this.cat_img}}" alt=""></a>
+                <div>
+                    <a href="{{this.cat_page}}">
+                        <h5 class="text-dark pl-3">{{this.cat_name}}</h5>
+                    </a>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+    <div class="container ">
+        <a class="d-flex text-dark justify-content-end " href="/au-news">view more →</a>
+    </div>
+</section>
+
+{{!-- LATEST NEWS SECTION --}}
+<section>
+    <div class="container pt-3">
+        <div class="row">
+            <div class=" text-center text-white col-md-5 col-lg-4 col-6">
+                <h3 class="bg-primary latest_news">LATEST NEWS</h3>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row ">
+            {{#each news}}
+            <div class="col-md-4 p-4">
+                <a href="/au-news/{{this.NEWS_NAME}}/{{this.NEWS_DESCRIPTION}}/{{this.NEWS_CODE}}">
+                    <h5 class="text-dark">{{this.NEWS_NAME}}</h5>
+                </a>
+                <div class="d-flex justify-content-between news_footer">
+                    <p>by STUCOR</p>
+                    <p><i class="bi bi-clock pr-2"></i>{{this.NEWS_DATE}}</p>
+                    <a href="" class="text-dark">Read more→</a>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</section>
