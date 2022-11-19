@@ -21,6 +21,27 @@ router.get("/view-news", (req, res, next) => {
   });
 });
 
+router.post('/edit-news/:id/:code',(req,res)=>{
+  // console.log(req.params.code);
+  code = req.params.code
+  
+  fs.unlink('./public/news/'+code+'.pdf',()=>{})
+  helpers.updateNews(req.params.id,req.body).then(()=>{
+    res.redirect('/admin/view-news')
+    if(req.files.NEWS_FILE){
+      let file = req.files.NEWS_FILE
+      file.mv('./public/news/'+req.body.NEWS_CODE+'.pdf')
+
+    }
+  })
+})
+
+router.get('/edit-news/:id',async(req,res)=>{
+  let news = await helpers.getNewsDetails(req.params.id)
+  console.log(news);
+  res.render('admin/edit-news',{admin:true,news})
+})
+
 router.get("/add-news", (req, res, next) => {
   res.render("admin/add-news", { admin: true });
 });

@@ -1,0 +1,53 @@
+<section class="btm-footer">
+  <div class="container add_form">
+    <div class="form">
+      <form class="m-3" action="/admin/edit-news/{{news._id}}/{{news.NEWS_CODE}}" method="POST" enctype="multipart/form-data">
+        <div class="text-center text-white">
+          <h3 class="bg-primary add_news p-2">EDIT NEWS</h3>
+        </div>
+        <div class="form-group">
+          <label for="formGroupExampleInput">NEWS NAME</label>
+          <input
+            type="text"
+            class="form-control"
+            name="NEWS_NAME"
+            placeholder="NAME"
+            value="{{news.NEWS_NAME}}"
+          />
+        </div>
+        <div class="form-group">
+          <label for="formGroupExampleInput">NEWS CODE</label>
+          <input
+            type="text"
+            class="form-control"
+            name="NEWS_CODE"
+            placeholder="NS01"
+            value="{{news.NEWS_CODE}}"
+          />
+        </div>
+        <div class="form-group">
+          <label for="formGroupExampleInput">NEWS DESCRIPTION</label>
+          <input
+            type="text"
+            class="form-control"
+            name="NEWS_DESCRIPTION"
+            placeholder="Description...."
+            value="{{news.NEWS_DESCRIPTION}}"
+          />
+        </div>
+        <div class="form-group">
+          <label for="formGroupExampleInput">FILE</label>
+          <input class="form-control" id="formFileMultiple" type="file" name="NEWS_FILE" />
+          <!--id="formFileMultiple" -->
+        </div>
+        <div class="form-group">
+          <label for="formGroupExampleInput2">DATE</label>
+          <input type="date" class="form-control someclass" name="NEWS_DATE" value="{{news.NEWS_DATE}}" />
+        </div>
+        <div>
+          <button type="submit" class="btn btn-primary">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

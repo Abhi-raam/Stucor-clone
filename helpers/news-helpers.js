@@ -26,6 +26,29 @@ module.exports = {
     });
   },
 
+  getNewsDetails:(newsId)=>{
+    return new Promise((resolve,reject)=>{
+      db.get().collection(collection.AUnews).findOne({_id:objectID(newsId)}).then((news)=>{
+        resolve(news)
+      })
+    })
+  },
+  updateNews:(newsId,newsDetails)=>{
+    return new Promise((resolve,reject)=>{
+      db.get().collection(collection.AUnews)
+      .updateOne({_id:objectID(newsId)},{
+        $set:{
+          NEWS_NAME:newsDetails.NEWS_NAME,
+          NEWS_CODE:newsDetails.NEWS_CODE,
+          NEWS_DESCRIPTION:newsDetails.NEWS_DESCRIPTION,
+          NEWS_DATE:newsDetails.NEWS_DATE
+        }
+      }).then((response)=>{
+        resolve()
+      })
+    })
+  },
+
   deleteNews: (newsId) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -68,4 +91,5 @@ module.exports = {
     });
   },
  
+
 };
