@@ -102,14 +102,44 @@ router.get('/reg_13/cse-sem03notes/:code/:name',(req,res)=>{
 })
 
 router.get('/reg_13/cse_sem04',(req,res)=>{
-  res.render('user/regulations/regulation-13/cse/cse-sem04',{})
+  helpers.viewCseSem04().then((csesem04)=>{
+    res.render('user/regulations/regulation-13/cse/cse-sem04',{csesem04})
+  })
+})
+router.get('/reg_13/cse-sem04notes/:code/:name',(req,res)=>{
+  subCode = req.params.code
+  subName = req.params.name
+  helpers.getAllNews().then((news)=>{
+    res.render('user/regulations/regulation-13/cse/cse-sem04notes',{subCode,subName,news})
+  })
 })
 router.get('/reg_13/cse_sem05',(req,res)=>{
-  res.render('user/regulations/regulation-13/cse/cse-sem05',{})
+  helpers.viewCseSem05().then((csesem05)=>{
+    res.render('user/regulations/regulation-13/cse/cse-sem05',{csesem05})
+  })
+})
+router.get('/reg_13/cse-sem05notes/:code/:name',(req,res)=>{
+  subCode = req.params.code
+  subName = req.params.name
+  helpers.getAllNews().then((news)=>{
+    res.render('user/regulations/regulation-13/cse/cse-sem05notes',{subCode,subName,news})
+  })
 })
 router.get('/reg_13/cse_sem06',(req,res)=>{
-  res.render('user/regulations/regulation-13/cse/cse-sem06',{})
+  helpers.viewCseSem06().then((csesem06)=>{
+    res.render('user/regulations/regulation-13/cse/cse-sem06',{csesem06})
+  })
 })
+
+router.get('/reg_13/cse-sem06notes/:code/:name',(req,res)=>{
+  subCode = req.params.code
+  subName = req.params.name
+  helpers.getAllNews().then((news)=>{
+    res.render('user/regulations/regulation-13/cse/cse-sem06notes',{subCode,subName,news})
+
+  })
+})
+
 router.get('/reg_13/cse_sem07',(req,res)=>{
   res.render('user/regulations/regulation-13/cse/cse-sem07',{})
 })

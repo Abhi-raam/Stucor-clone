@@ -102,6 +102,35 @@ module.exports = {
         });
     });
   },
+  deleteCseSem04: (semId) => {
+    return new Promise((resolve, reject) => {
+      db.get()
+        .collection(collection.CseSem04)
+        .remove({ _id: objectID(semId) })
+        .then((response) => {
+          resolve(response);
+        });
+    });
+  },
+
+  deleteCseSem05: (semId) => {
+    return new Promise((resolve, reject) => {
+      db.get()
+        .collection(collection.CseSem05)
+        .remove({ _id: objectID(semId) })
+        .then((response) => {
+          resolve(response);
+        });
+    });
+  },
+
+  deleteCseSem06:(semId)=>{
+    return new Promise((resolve,reject)=>{
+      db.get().collection(collection.CseSem06).remove({_id:objectID(semId)}).then((response)=>{
+        resolve(response)
+      })
+    })
+  },
 
   addCseSem01: (csesem01, callback) => {
     // console.log(csesem01);
@@ -125,7 +154,7 @@ module.exports = {
       reslove(csesem01);
     });
   },
-
+  
   addCseSem02: (csesem02, callback) => {
     db.get()
       .collection("csesem02")
@@ -165,22 +194,44 @@ module.exports = {
       resolve(csesem03);
     });
   },
+
   addCseSem04: (csesem04, callback) => {
-    db.get()
-      .collection(collection.CseSem04)
-      .insertOne(csesem04)
-      .then((data) => {
-        callback(true);
+    db.get().collection(collection.CseSem04).insertOne(csesem04).then((data) => {
+      callback(csesem04.Subject_code)
       });
   },
   viewCseSem04: () => {
     return new Promise(async (resolve, reject) => {
-      let csesem04 = await db
-        .get()
-        .collection(collection.CseSem04)
-        .find()
-        .toArray();
-      resolve(csesem04);
+      let csesem04 = await db.get().collection(collection.CseSem04).find().toArray();
+        resolve(csesem04);
     });
   },
+
+  addCseSem05:(csesem05,callback)=>{
+    db.get().collection(collection.CseSem05).insertOne(csesem05).then((data)=>{
+      callback(csesem05.Subject_code)
+    })
+  },
+  viewCseSem05: ()=>{
+    return new Promise (async(resolve,reject)=>{
+      let csesem05 = await db.get().collection(collection.CseSem05).find().toArray()
+      resolve(csesem05)
+    })
+  },
+
+  addCseSem06 :(csesem06,callback)=>{
+    db.get().collection(collection.CseSem06).insertOne(csesem06).then((data)=>{
+      callback(csesem06.Subject_code)
+    })
+  },
+  viewCseSem06:()=>{
+    return new Promise(async(resolve,reject)=>{
+      let csesem06 = await db.get().collection(collection.CseSem06).find().toArray()
+      resolve(csesem06)
+    })
+  },
+
+
+
+
 };

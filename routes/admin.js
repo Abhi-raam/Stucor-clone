@@ -246,32 +246,149 @@ router.get("/delete-cse-sem03/:id/:subcode", (req, res) => {
 // <-------cse sem 04------->
 router.get("/cse/sem-04", (req, res) => {
   //view notes
-    res.render("admin/notes/reg-13/cse/sem-04/sem-04-notes",{admin : true});
+  helpers.viewCseSem04().then((csesem04)=>{
+    res.render("admin/notes/reg-13/cse/sem-04/sem-04-notes",{admin : true,csesem04});
+  })
 })
 
 router.get('/cse/add/sem-04-notes',(req,res)=>{
   res.render('admin/notes/reg-13/cse/sem-04/add-sem-04-cse',{admin:true})
 })
 
+router.post('/cse/add/sem-04-notes',(req,res)=>{
+  helpers.addCseSem04(req.body,(code)=>{
+    let note = req.files.Notes
+    let question = req.files.Questions
+    note.mv('./public/notes/cse/sem04/'+code+'-note.pdf',(err,done)=>{
+      if(!err){
+        res.render("admin/notes/reg-13/cse/sem-04/add-sem-04-cse", { admin: true });
+      }
+      else{
+        console.log(err);
+      }
+    })
+    question.mv('./public/notes/cse/sem04/'+code+'-qp.pdf',(err,done)=>{
+      if(!err){
+        res.render("admin/notes/reg-13/cse/sem-04/add-sem-04-cse", { admin: true });
+      }
+      else{
+        console.log(err);
+      }
+    }) 
+  })
+})
+
+router.get('/delete-cse-sem04/:id/:subcode',(req,res)=>{
+  let semId = req.params.id
+  let subCode = req.params.subcode
+  helpers.deleteCseSem04(semId).then((response) => {
+    fs.unlink('./public/notes/cse/sem04/'+subCode+'-note.pdf',()=>{
+      console.log("Deleted file : "+subCode+'-note.pdf');
+    })
+    fs.unlink('./public/notes/cse/sem04/'+subCode+'-qp.pdf',()=>{
+      console.log('Deleted file is : '+subCode+'-qp.pdf');
+    })
+    res.redirect("/admin/cse/sem-04");
+  });
+});
 
 // <----------cse sem 05---------->
 router.get('/cse/sem-05',(req,res)=>{
-  res.render('admin/notes/reg-13/cse/sem-05/sem-05-notes',{admin : true})
+  helpers.viewCseSem05().then((csesem05)=>{
+    res.render('admin/notes/reg-13/cse/sem-05/sem-05-notes',{admin : true,csesem05})
+  })
 })
 
 router.get('/cse/add/sem-05-notes',(req,res)=>{
   res.render('admin/notes/reg-13/cse/sem-05/add-sem-05-cse',{admin:true})
 })
 
+router.post('/cse/add/sem-05-notes',(req,res)=>{
+  helpers.addCseSem05(req.body,(code)=>{
+    let note = req.files.Notes
+    let question = req.files.Questions
+    note.mv('./public/notes/cse/sem05/'+code+'-note.pdf',(err,done)=>{
+      if(!err){
+        res.render('admin/notes/reg-13/cse/sem-05/add-sem-05-cse',{admin:true})
+
+      }
+      else{
+        console.log(err);
+      }
+    })
+    question.mv('./public/notes/cse/sem05/'+code+'-qp.pdf',(err,done)=>{
+      if(!err){
+        res.render('admin/notes/reg-13/cse/sem-05/add-sem-05-cse',{admin : true})
+      }
+      else{
+        console.log(err);
+      }
+    })
+  })
+})
+
+router.get('/delete-cse-sem05/:id/:subcode',(req,res)=>{
+  let semId = req.params.id
+  let subCode = req.params.subcode
+  helpers.deleteCseSem05(semId).then((response)=>{
+    fs.unlink('./public/notes/cse/sem05/'+subCode+'-note.pdf',()=>{
+      console.log("Deleted file : "+subCode+'-note.pdf');
+
+    })
+    fs.unlink('./public/notes/cse/sem05/'+subCode+'-qp.pdf',()=>{
+      console.log("Deleted file : "+subCode+'-qp.pdf');
+    })
+    res.redirect('/admin/cse/sem-05')
+  })
+})
+
 // <----------cse sem 06---------->
 router.get('/cse/sem-06',(req,res)=>{
-  res.render('admin/notes/reg-13/cse/sem-06/sem-06-notes',{admin : true})
+  helpers.viewCseSem06().then((csesem06)=>{
+    res.render('admin/notes/reg-13/cse/sem-06/sem-06-notes',{admin : true,csesem06})
+  })
 })
 
 router.get('/cse/add/sem-06-notes',(req,res)=>{
   res.render('admin/notes/reg-13/cse/sem-06/add-sem-06-cse',{admin:true})
 })
 
+router.post('/cse/add/sem-06-notes',(req,res)=>{
+  helpers.addCseSem06(req.body,(code)=>{
+    let note = req.files.Notes
+    let question = req.files.Questions
+    note.mv('./public/notes/cse/sem06/'+code+'-note.pdf',(err,done)=>{
+      if(!err){
+        res.render('admin/notes/reg-13/cse/sem-06/add-sem-06-cse',{admin: true})
+      }
+      else{
+        console.log(err);
+      }
+    })
+    question.mv('./public/notes/cse/sem06/'+code+'-qp.pdf',(err,done)=>{
+      if(!err){
+        res.render('admin/notes/reg-13/cse/sem-06/add-sem-06-cse',{admin: true})
+      }
+      else{
+        console.log(err);
+      }
+    })
+  })
+})
+
+router.get('/delete-cse-sem06/:id/:subcode',(req,res)=>{
+  let semId = req.params.id
+  let subCode = req.params.subcode
+  helpers.deleteCseSem06(semId).then((response)=>{
+    fs.unlink('./public/notes/cse/sem06/'+subCode+'-note.pdf',()=>{
+      console.log("Deleted file : "+subCode+'-note.pdf');
+    })
+    fs.unlink('./public/notes/cse/sem06/'+subCode+'-qp.pdf',()=>{
+      console.log("Deleted file : "+subCode+'-qp.pdf');
+    })
+    res.redirect('/admin/cse/sem-06')
+  })
+})
 // <----------cse sem 07---------->
 router.get('/cse/sem-07',(req,res)=>{
   res.render('admin/notes/reg-13/cse/sem-07/sem-07-notes',{admin : true})
