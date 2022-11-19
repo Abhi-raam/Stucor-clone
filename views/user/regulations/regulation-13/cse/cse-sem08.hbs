@@ -4,78 +4,20 @@
             <h4>CSE-SEM 08</h4>
         </div>
        <div class="row pt-5">
-         <div class="col-md-4 pt-5">
-            <div>
-                <a href="">
-                    <h5 class="text-dark">Engineering Physics (PH8151) Notes, Question Papers & Syllabus</h5>
-                </a>
-            </div>
-            <div class="d-flex justify-content-between news_footer">
+             {{#each csesem08}}
+                <div class="col-md-4 pt-5">
+                <div>
+                    <a href="/reg_13/cse-sem08notes/{{this.Subject_code}}/{{this.Subject_name}}">
+                        <h5 class="text-dark">{{this.Subject_name}} ({{this.Subject_code}}) Notes & Question Papers</h5>
+                    </a>
+                </div>
+                <div class="d-flex justify-content-between news_footer">
                     <p>by STUCOR</p>
                     <p><i class="bi bi-clock pr-2"></i>May 19 2020</p>
                     <a href="" class="text-dark">Read more→</a>
                 </div>
-        </div>
-         <div class="col-md-4 pt-5">
-            <div>
-                <a href="">
-                    <h5 class="text-dark">Engineering Physics (PH8151) Notes, Question Papers & Syllabus</h5>
-                </a>
             </div>
-            <div class="d-flex justify-content-between news_footer">
-                    <p>by STUCOR</p>
-                    <p><i class="bi bi-clock pr-2"></i>May 19 2020</p>
-                    <a href="" class="text-dark">Read more→</a>
-                </div>
-        </div>
-         <div class="col-md-4 pt-5">
-            <div>
-                <a href="">
-                    <h5 class="text-dark">Engineering Physics (PH8151) Notes, Question Papers & Syllabus</h5>
-                </a>
-            </div>
-            <div class="d-flex justify-content-between news_footer">
-                    <p>by STUCOR</p>
-                    <p><i class="bi bi-clock pr-2"></i>May 19 2020</p>
-                    <a href="" class="text-dark">Read more→</a>
-                </div>
-        </div>
-         <div class="col-md-4 pt-5">
-            <div>
-                <a href="">
-                    <h5 class="text-dark">Engineering Physics (PH8151) Notes, Question Papers & Syllabus</h5>
-                </a>
-            </div>
-            <div class="d-flex justify-content-between news_footer">
-                    <p>by STUCOR</p>
-                    <p><i class="bi bi-clock pr-2"></i>May 19 2020</p>
-                    <a href="" class="text-dark">Read more→</a>
-                </div>
-        </div>
-         <div class="col-md-4 pt-5">
-            <div>
-                <a href="">
-                    <h5 class="text-dark">Engineering Physics (PH8151) Notes, Question Papers & Syllabus</h5>
-                </a>
-            </div>
-            <div class="d-flex justify-content-between news_footer">
-                    <p>by STUCOR</p>
-                    <p><i class="bi bi-clock pr-2"></i>May 19 2020</p>
-                    <a href="" class="text-dark">Read more→</a>
-                </div>
-        </div>
-         <div class="col-md-4 pt-5">
-            <div>
-                <a href="">
-                    <h5 class="text-dark">Engineering Physics (PH8151) Notes, Question Papers & Syllabus</h5>
-                </a>
-            </div>
-            <div class="d-flex justify-content-between news_footer">
-                    <p>by STUCOR</p>
-                    <p><i class="bi bi-clock pr-2"></i>May 19 2020</p>
-                    <a href="" class="text-dark">Read more→</a>
-                </div>
-        </div>
+            {{/each}}
        </div>
     </div>
 </section>
