@@ -308,8 +308,18 @@ router.get('/reg_13/ece-sem01notes/:code/:name',(req,res)=>{
 
 
 router.get('/reg_13/ece_sem02',(req,res)=>{
-  res.render('user/regulations/regulation-13/ece/ece-sem02',{})
+  eceHelper.viewEceSem02().then((ecesem02)=>{
+    res.render('user/regulations/regulation-13/ece/ece-sem02',{ecesem02})
+  })
 })
+router.get('/reg_13/ece-sem02notes/:code/:name',(req,res)=>{ 
+  subCode = req.params.code
+  subName = req.params.name
+  helpers.getAllNews().then((news)=>{
+    res.render('user/regulations/regulation-13/ece/ece-sem02notes',{subCode,subName,news})
+  })
+})
+
 router.get('/reg_13/ece_sem03',(req,res)=>{
   res.render('user/regulations/regulation-13/ece/ece-sem03',{})
 })

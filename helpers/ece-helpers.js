@@ -20,6 +20,25 @@ module.exports = {
     deleteEceSem01 : (semId,callback)=>{
         db.get().collection(collection.EceSem01).remove({_id:objectID(semId)})
         callback(response)
+    },
+    addEceSem02 : (ecesem02)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.EceSem02).insertOne(ecesem02).then((data)=>{
+                resolve(ecesem02.Subject_code)
+            })
+        })
+    },
+    viewEceSem02 : ()=>{
+        return new Promise(async(resolve,reject)=>{
+            let ecesem02 = await db.get().collection(collection.EceSem02).find().toArray()
+                resolve(ecesem02)
+        })
+    },
+    deleteEceSem02 :(semId)=>{
+    return new Promise((resolve,reject)=>{
+        db.get().collection(collection.EceSem02).remove({_id:objectID(semId)})
+        resolve(response)
+    })
     }
 
 }
