@@ -9,4 +9,13 @@ module.exports = {
     CseSem06 : 'csesem06',
     CseSem07 : 'csesem07',
     CseSem08 : 'csesem08',
+
+    CivilSem01 : 'civilsem01',
+    CivilSem02 : 'civilsem02',
+    CivilSem03 : 'civilsem03',
+    CivilSem04 : 'civilsem04',
+    CivilSem05 : 'civilsem05',
+    CivilSem06 : 'civilsem06',
+    CivilSem07 : 'civilsem07',
+    CivilSem08 : 'civilsem08',
 }

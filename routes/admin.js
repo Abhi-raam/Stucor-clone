@@ -1,6 +1,8 @@
 var db = require("../config/connection");
 var express = require("express");
 var cseHelper = require('../helpers/cse-helpers')
+var civilHelper = require('../helpers/civil-helpers')
+
 var fs = require('fs')
 const { Cse13_Sem02, Cse13_Sem01, CseSem01 } = require("../config/collections");
 // const { getAllCseSem_01, getAllCseSem_02 } = require("../helpers/news-helpers");
@@ -508,76 +510,379 @@ router.get('/delete-cse-sem08/:id/:subcode',(req,res)=>{
 //               <----------CIVIL---------->
 // <----------civil sem 01---------->
 router.get('/civil/sem-01',(req,res)=>{
-  res.render('admin/notes/reg-13/civil/sem-01/sem-01-notes',{admin : true})
+  civilHelper.viewCivilSem01().then((civilsem01)=>{
+    res.render('admin/notes/reg-13/civil/sem-01/sem-01-notes',{admin : true,civilsem01})
+  })
 })
 
 router.get('/civil/add/sem-01-notes',(req,res)=>{
   res.render('admin/notes/reg-13/civil/sem-01/add-sem-01-civil',{admin:true})
 })
 
+router.post('/civil/add/sem-01-notes',(req,res)=>{
+  civilHelper.addCivilSem01(req.body,(code)=>{
+    let notes = req.files.Notes;
+    let question = req.files.Questions;
+    notes.mv('./public/notes/civil/sem01/'+code+'-note.pdf',(err,done)=>{
+      if(!err){
+        res.render("admin/notes/reg-13/civil/sem-01/add-sem-01-civil", { admin: true });
+      }
+      else{
+        console.log(err);
+      }
+    })
+    question.mv('./public/notes/civil/sem01/'+code+'-qp.pdf',(err,done)=>{
+      if(!err){
+        res.render("admin/notes/reg-13/civil/sem-01/add-sem-01-civil", { admin: true });
+      }
+      else{
+        console.log(err);
+      }
+    })
+  })
+})
+
+router.get('/delete-civil-sem01/:id/:subcode',(req,res)=>{
+  let semId = req.params.id
+  let subCode = req.params.subcode
+  civilHelper.deleteCivilSem01(semId).then((response)=>{
+    fs.unlink('./public/notes/civil/sem01/'+subCode+'-note.pdf',()=>{
+      console.log('Deleted file : '+subCode+'-note.pdf');
+    })
+    fs.unlink('./public/notes/civil/sem01/'+subCode+'-qp.pdf',()=>{
+      console.log('Deleted file : '+subCode+'-qp.pdf');
+    })
+    res.redirect("/admin/civil/sem-01");
+  })
+})
+
+
 // <----------civil sem 02---------->
 router.get('/civil/sem-02',(req,res)=>{
-  res.render('admin/notes/reg-13/civil/sem-02/sem-02-notes',{admin : true})
+  civilHelper.viewCivilSem02().then((civilsem02)=>{
+    res.render('admin/notes/reg-13/civil/sem-02/sem-02-notes',{admin : true,civilsem02})
+  })
 })
 
 router.get('/civil/add/sem-02-notes',(req,res)=>{
   res.render('admin/notes/reg-13/civil/sem-02/add-sem-02-civil',{admin:true})
 })
 
+router.post('/civil/add/sem-02-notes',(req,res)=>{
+  civilHelper.addCivilSem02(req.body,(code)=>{
+    let notes = req.files.Notes;
+    let question = req.files.Questions;
+    notes.mv('./public/notes/civil/sem02/'+code+'-note.pdf',(err,done)=>{
+      if(!err){
+        res.render("admin/notes/reg-13/civil/sem-02/add-sem-02-civil", { admin: true });
+      }
+      else{
+        console.log(err);
+      }
+    })
+    question.mv('./public/notes/civil/sem02/'+code+'-qp.pdf',(err,done)=>{
+      if(!err){
+        res.render("admin/notes/reg-13/civil/sem-02/add-sem-02-civil", { admin: true });
+      }
+      else{
+        console.log(err);
+      }
+    })
+  })
+})
+router.get('/delete-civil-sem02/:id/:subcode',(req,res)=>{
+  let semId = req.params.id
+  let subCode = req.params.subcode
+  civilHelper.deleteCivilSem02(semId).then((response)=>{
+    fs.unlink('./public/notes/civil/sem02/'+subCode+'-note.pdf',()=>{
+      console.log('Deleted file : '+subCode+'-note.pdf');
+    })
+    fs.unlink('./public/notes/civil/sem02/'+subCode+'-qp.pdf',()=>{
+      console.log('Deleted file : '+subCode+'-qp.pdf');
+    })
+    res.redirect("/admin/civil/sem-02");
+  })
+})
+
 // <----------civil sem 03---------->
 router.get('/civil/sem-03',(req,res)=>{
-  res.render('admin/notes/reg-13/civil/sem-03/sem-03-notes',{admin : true})
+  civilHelper.viewCivilSem03().then((civilsem03)=>{
+    res.render('admin/notes/reg-13/civil/sem-03/sem-03-notes',{admin : true,civilsem03})
+  })
 })
 
 router.get('/civil/add/sem-03-notes',(req,res)=>{
   res.render('admin/notes/reg-13/civil/sem-03/add-sem-03-civil',{admin:true})
 })
 
+router.post('/civil/add/sem-03-notes',(req,res)=>{
+  civilHelper.addCivilSem03(req.body).then((code)=>{
+    let notes = req.files.Notes;
+    let question = req.files.Questions;
+    
+    notes.mv('./public/notes/civil/sem03/'+code+'-note.pdf',(err,done)=>{
+      if(!err){
+        res.render("admin/notes/reg-13/civil/sem-03/add-sem-03-civil", { admin: true });
+      }
+      else{
+        console.log(err);
+      }
+    })
+    question.mv('./public/notes/civil/sem03/'+code+'-qp.pdf',(err,done)=>{
+      if(!err){
+        res.render("admin/notes/reg-13/civil/sem-03/add-sem-03-civil", { admin: true });
+      }
+      else{
+        console.log(err);
+      }
+    })
+  })
+})
+
+router.get('/delete-civil-sem03/:id/:subcode',(req,res)=>{
+  let semId = req.params.id
+  let subCode = req.params.subcode
+  civilHelper.deleteCivilSem03(semId).then((response)=>{
+    fs.unlink('./public/notes/civil/sem03/'+subCode+'-note.pdf',()=>{
+      console.log('Deleted file : '+subCode+'-note.pdf');
+    })
+    fs.unlink('./public/notes/civil/sem03/'+subCode+'-qp.pdf',()=>{
+      console.log('Deleted file : '+subCode+'-qp.pdf');
+    })
+    res.redirect("/admin/civil/sem-03");
+  })
+})
+
 // <----------civil sem 04---------->
 router.get('/civil/sem-04',(req,res)=>{
-  res.render('admin/notes/reg-13/civil/sem-04/sem-04-notes',{admin : true})
+  civilHelper.viewCivilSem04().then((civilsem04)=>{
+    res.render('admin/notes/reg-13/civil/sem-04/sem-04-notes',{admin : true,civilsem04})
+  })
 })
 
 router.get('/civil/add/sem-04-notes',(req,res)=>{
   res.render('admin/notes/reg-13/civil/sem-04/add-sem-04-civil',{admin:true})
 })
+router.post('/civil/add/sem-04-notes',(req,res)=>{
+  civilHelper.addCivilSem04(req.body).then((code)=>{
+    let notes = req.files.Notes;
+    let question = req.files.Questions;
+    notes.mv('./public/notes/civil/sem04/'+code+'-note.pdf',(err,done)=>{
+      if(!err){
+        res.render("admin/notes/reg-13/civil/sem-04/add-sem-04-civil", { admin: true });
+      }
+      else{
+        console.log(err);
+      }
+    })
+    question.mv('./public/notes/civil/sem04/'+code+'-qp.pdf',(err,done)=>{
+      if(!err){
+        res.render("admin/notes/reg-13/civil/sem-04/add-sem-04-civil", { admin: true });
+      }
+      else{
+        console.log(err);
+      }
+    })
+  })
+})
+router.get('/delete-civil-sem04/:id/:subcode',(req,res)=>{
+  let semId = req.params.id
+  let subCode = req.params.subcode
+  civilHelper.deleteCivilSem04(semId).then((response)=>{
+    console.log('this is the response ====>'+response);
+    fs.unlink('./public/notes/civil/sem04/'+subCode+'-note.pdf',()=>{
+      console.log('Deleted file : '+subCode+'-note.pdf');
+    })
+    fs.unlink('./public/notes/civil/sem04/'+subCode+'-qp.pdf',()=>{
+      console.log('Deleted file : '+subCode+'-qp.pdf');
+    })
+    res.redirect("/admin/civil/sem-04");
+  })
+})
 
 // <----------civil sem 05---------->
 router.get('/civil/sem-05',(req,res)=>{
-  res.render('admin/notes/reg-13/civil/sem-05/sem-05-notes',{admin : true})
+  civilHelper.viewCivilSem05().then((civilsem05)=>{
+    res.render('admin/notes/reg-13/civil/sem-05/sem-05-notes',{admin : true,civilsem05})
+  })
 })
 
 router.get('/civil/add/sem-05-notes',(req,res)=>{
   res.render('admin/notes/reg-13/civil/sem-05/add-sem-05-civil',{admin:true})
 })
+router.post('/civil/add/sem-05-notes',(req,res)=>{
+  civilHelper.addCivilSem05(req.body,(code)=>{
+    let notes = req.files.Notes;
+    let question = req.files.Questions;
+    notes.mv('./public/notes/civil/sem05/'+code+'-note.pdf',(err,done)=>{
+      if(!err){
+        res.render("admin/notes/reg-13/civil/sem-05/add-sem-05-civil", { admin: true });
+      }
+      else{
+        console.log(err);
+      }
+    })
+    question.mv('./public/notes/civil/sem05/'+code+'-qp.pdf',(err,done)=>{
+      if(!err){
+        res.render("admin/notes/reg-13/civil/sem-05/add-sem-05-civil", { admin: true });
+      }
+      else{
+        console.log(err);
+      }
+    })
+  })
+})
+router.get('/delete-civil-sem05/:id/:subcode',(req,res)=>{
+  let semId = req.params.id
+  let subCode = req.params.subcode
+  civilHelper.deleteCivilSem05(semId,(response)=>{
+    fs.unlink('./public/notes/civil/sem05/'+subCode+'-note.pdf',()=>{
+      console.log('Deleted file : '+subCode+'-note.pdf');
+    })
+    fs.unlink('./public/notes/civil/sem05/'+subCode+'-qp.pdf',()=>{
+      console.log('Deleted file : '+subCode+'-qp.pdf');
+    })
+    res.redirect("/admin/civil/sem-05");
+  })
+})
 
 // <----------civil sem 06---------->
 router.get('/civil/sem-06',(req,res)=>{
-  res.render('admin/notes/reg-13/civil/sem-06/sem-06-notes',{admin : true})
+  civilHelper.viewCivilSem06().then((civilsem06)=>{
+    res.render('admin/notes/reg-13/civil/sem-06/sem-06-notes',{admin : true,civilsem06})
+  })
 })
 
 router.get('/civil/add/sem-06-notes',(req,res)=>{
   res.render('admin/notes/reg-13/civil/sem-06/add-sem-06-civil',{admin:true})
 })
-
+router.post('/civil/add/sem-06-notes',(req,res)=>{
+  civilHelper.addCivilSem06(req.body,(code)=>{
+    let notes = req.files.Notes;
+    let question = req.files.Questions;
+    notes.mv('./public/notes/civil/sem06/'+code+'-note.pdf',(err,done)=>{
+      if(!err){
+        res.render("admin/notes/reg-13/civil/sem-06/add-sem-06-civil", { admin: true });
+      }
+      else{
+        console.log(err);
+      }
+    })
+    question.mv('./public/notes/civil/sem06/'+code+'-qp.pdf',(err,done)=>{
+      if(!err){
+        res.render("admin/notes/reg-13/civil/sem-06/add-sem-06-civil", { admin: true });
+      }
+      else{
+        console.log(err);
+      }
+    })
+  })
+})
+router.get('/delete-civil-sem06/:id/:subcode',(req,res)=>{
+  let semId = req.params.id
+  let subCode = req.params.subcode
+  civilHelper.deleteCivilSem06(semId,(response)=>{
+    fs.unlink('./public/notes/civil/sem06/'+subCode+'-note.pdf',()=>{
+      console.log('Deleted file : '+subCode+'-note.pdf');
+    })
+    fs.unlink('./public/notes/civil/sem06/'+subCode+'-qp.pdf',()=>{
+      console.log('Deleted file : '+subCode+'-qp.pdf');
+    })
+    res.redirect("/admin/civil/sem-06");
+  })
+})
 // <----------civil sem 07---------->
 router.get('/civil/sem-07',(req,res)=>{
-  res.render('admin/notes/reg-13/civil/sem-07/sem-07-notes',{admin : true})
+  civilHelper.viewCivilSem07().then((civilsem07)=>{
+    res.render('admin/notes/reg-13/civil/sem-07/sem-07-notes',{admin : true,civilsem07})
+  })
 })
 
 router.get('/civil/add/sem-07-notes',(req,res)=>{
   res.render('admin/notes/reg-13/civil/sem-07/add-sem-07-civil',{admin:true})
 })
 
+router.post('/civil/add/sem-07-notes',(req,res)=>{
+  civilHelper.addCivilSem07(req.body).then((code)=>{
+    let notes = req.files.Notes;
+    let question = req.files.Questions;
+    notes.mv('./public/notes/civil/sem07/'+code+'-note.pdf',(err,done)=>{
+      if(!err){
+        res.render("admin/notes/reg-13/civil/sem-07/add-sem-07-civil", { admin: true });
+      }
+      else{
+        console.log(err);
+      }
+    })
+    question.mv('./public/notes/civil/sem07/'+code+'-qp.pdf',(err,done)=>{
+      if(!err){
+        res.render("admin/notes/reg-13/civil/sem-07/add-sem-07-civil", { admin: true });
+      }
+      else{
+        console.log(err);
+      }
+    }) 
+   })
+})
+router.get('/delete-civil-sem07/:id/:subcode',(req,res)=>{
+  let semId = req.params.id
+  let subCode = req.params.subcode
+  civilHelper.deleteCivilSem07(semId).then((response)=>{
+    fs.unlink('./public/notes/civil/sem07/'+subCode+'-note.pdf',()=>{
+      console.log('Deleted file : '+subCode+'-note.pdf');
+    })
+    fs.unlink('./public/notes/civil/sem07/'+subCode+'-qp.pdf',()=>{
+      console.log('Deleted file : '+subCode+'-qp.pdf');
+    })
+    res.redirect("/admin/civil/sem-07");
+  })
+})
+
 // <----------civil sem 08---------->
 router.get('/civil/sem-08',(req,res)=>{
-  res.render('admin/notes/reg-13/civil/sem-08/sem-08-notes',{admin : true})
+  civilHelper.viewCivilSem08((civilsem08)=>{
+    res.render('admin/notes/reg-13/civil/sem-08/sem-08-notes',{admin : true,civilsem08})
+  })
 })
 
 router.get('/civil/add/sem-08-notes',(req,res)=>{
   res.render('admin/notes/reg-13/civil/sem-08/add-sem-08-civil',{admin:true})
 })
-
+router.post('/civil/add/sem-08-notes',(req,res)=>{
+  civilHelper.addCivilSem08(req.body,(code)=>{
+    let notes = req.files.Notes;
+    let question = req.files.Questions;
+    notes.mv('./public/notes/civil/sem08/'+code+'-note.pdf',(err,done)=>{
+      if(!err){
+        res.render("admin/notes/reg-13/civil/sem-08/add-sem-08-civil", { admin: true });
+      }
+      else{
+        console.log(err);
+      }
+    })
+    question.mv('./public/notes/civil/sem08/'+code+'-qp.pdf',(err,done)=>{
+      if(!err){
+        res.render("admin/notes/reg-13/civil/sem-08/add-sem-08-civil", { admin: true });
+      }
+      else{
+        console.log(err);
+      }
+    })
+  })
+})
+router.get('/delete-civil-sem08/:id/:subcode',(req,res)=>{
+  let semId = req.params.id
+  let subCode = req.params.subcode
+  civilHelper.deleteCivilSem08(semId,(response)=>{
+    fs.unlink('./public/notes/civil/sem08/'+subCode+'-note.pdf',()=>{
+      console.log('Deleted file : '+subCode+'-note.pdf');
+    })
+    fs.unlink('./public/notes/civil/sem08/'+subCode+'-qp.pdf',()=>{
+      console.log('Deleted file : '+subCode+'-qp.pdf');
+    })
+    res.redirect("/admin/civil/sem-08");
+  })
+})
 
 //               <----------ECE---------->
 // <----------ece sem 01---------->

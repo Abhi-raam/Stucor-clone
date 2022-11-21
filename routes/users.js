@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 var helpers = require('../helpers/news-helpers')
 var cseHelper = require('../helpers/cse-helpers')
+var civilHelper = require('../helpers/civil-helpers');
+const { CivilSem01 } = require('../config/collections');
+
 /* GET users listing. */
 router.get('/', function (req, res, next) {
   let category = [
@@ -62,6 +65,8 @@ router.get('/regulation_13',(req,res)=>{
 router.get('/regulation_13/choose_sem_cse',(req,res)=>{
   res.render('user/regulations/regulation-13/cse/choose-cse-sem',{})
 })
+
+
 router.get('/reg_13/cse_sem01',(req,res)=>{
   cseHelper.viewCseSem01().then((csesem01)=>{
     res.render('user/regulations/regulation-13/cse/cse-sem01',{csesem01})
@@ -177,37 +182,110 @@ router.get('/regulation_13/choose_sem_civil',(req,res)=>{
 })
 
 router.get('/reg_13/civil_sem01',(req,res)=>{
-  res.render('user/regulations/regulation-13/civil/civil-sem01',{})
+  civilHelper.viewCivilSem01().then((civilsem01)=>{
+    res.render('user/regulations/regulation-13/civil/civil-sem01',{civilsem01})
+  })
+})
+router.get('/reg_13/civil-sem01notes/:code/:name',(req,res)=>{ 
+  subCode = req.params.code
+  subName = req.params.name
+  helpers.getAllNews().then((news)=>{
+    res.render('user/regulations/regulation-13/civil/civil-sem01notes',{subCode,subName,news})
+  })
 })
 
 router.get('/reg_13/civil_sem02',(req,res)=>{
-  res.render('user/regulations/regulation-13/civil/civil-sem02',{})
+  civilHelper.viewCivilSem02().then((civilsem02)=>{
+    res.render('user/regulations/regulation-13/civil/civil-sem02',{civilsem02})
+  })
 })
-
+router.get('/reg_13/civil-sem02notes/:code/:name',(req,res)=>{
+  let subCode = req.params.code
+  let subName = req.params.name
+  helpers.getAllNews().then((news)=>{
+    res.render('user/regulations/regulation-13/civil/civil-sem02notes',{subCode,subName,news})
+  })
+})
 
 router.get('/reg_13/civil_sem03',(req,res)=>{
-  res.render('user/regulations/regulation-13/civil/civil-sem03',{})
+  civilHelper.viewCivilSem03().then((civilsem03)=>{
+    res.render('user/regulations/regulation-13/civil/civil-sem03',{civilsem03})
+  })
+})
+router.get('/reg_13/civil-sem03notes/:code/:name',(req,res)=>{
+  let subCode = req.params.code
+  let subName = req.params.name
+  helpers.getAllNews().then((news)=>{
+    res.render('user/regulations/regulation-13/civil/civil-sem03notes',{subCode,subName,news})
+  })
 })
 
+
 router.get('/reg_13/civil_sem04',(req,res)=>{
-  res.render('user/regulations/regulation-13/civil/civil-sem04',{})
+  civilHelper.viewCivilSem04().then((civilsem04)=>{
+    res.render('user/regulations/regulation-13/civil/civil-sem04',{civilsem04})
+  })
+})
+router.get('/reg_13/civil-sem04notes/:code/:name',(req,res)=>{
+  let subCode = req.params.code
+  let subName = req.params.name
+  helpers.getAllNews().then((news)=>{
+    res.render('user/regulations/regulation-13/civil/civil-sem04notes',{subCode,subName,news})
+  })
 })
 
 router.get('/reg_13/civil_sem05',(req,res)=>{
-  res.render('user/regulations/regulation-13/civil/civil-sem05',{})
+  civilHelper.viewCivilSem05().then((civilsem05)=>{
+    res.render('user/regulations/regulation-13/civil/civil-sem05',{civilsem05})
+  })
+})
+router.get('/reg_13/civil-sem05notes/:code/:name',(req,res)=>{
+  let subCode = req.params.code
+  let subName = req.params.name
+  helpers.getAllNews().then((news)=>{
+    res.render('user/regulations/regulation-13/civil/civil-sem05notes',{subCode,subName,news})
+  })
 })
 
 router.get('/reg_13/civil_sem06',(req,res)=>{
-  res.render('user/regulations/regulation-13/civil/civil-sem06',{})
+  civilHelper.viewCivilSem06().then((civilsem06)=>{
+    res.render('user/regulations/regulation-13/civil/civil-sem06',{civilsem06})
+  })
+})
+router.get('/reg_13/civil-sem06notes/:code/:name',(req,res)=>{
+  let subCode = req.params.code
+  let subName = req.params.name
+  helpers.getAllNews().then((news)=>{
+    res.render('user/regulations/regulation-13/civil/civil-sem06notes',{subCode,subName,news})
+  })
 })
 
 router.get('/reg_13/civil_sem07',(req,res)=>{
-  res.render('user/regulations/regulation-13/civil/civil-sem07',{})
+  civilHelper.viewCivilSem07().then((civilsem07)=>{
+    res.render('user/regulations/regulation-13/civil/civil-sem07',{civilsem07})
+  })
+})
+router.get('/reg_13/civil-sem07notes/:code/:name',(req,res)=>{
+  let subCode = req.params.code
+  let subName = req.params.name
+  helpers.getAllNews().then((news)=>{
+    res.render('user/regulations/regulation-13/civil/civil-sem07notes',{subCode,subName,news})
+  })
 })
 
 router.get('/reg_13/civil_sem08',(req,res)=>{
-  res.render('user/regulations/regulation-13/civil/civil-sem08',{})
+  civilHelper.viewCivilSem08((civilsem08)=>{
+    res.render('user/regulations/regulation-13/civil/civil-sem08',{civilsem08})
+  })
 })
+router.get('/reg_13/civil-sem08notes/:code/:name',(req,res)=>{
+  let subCode = req.params.code
+  let subName = req.params.name
+  helpers.getAllNews().then((news)=>{
+    res.render('user/regulations/regulation-13/civil/civil-sem08notes',{subCode,subName,news})
+  })
+})
+
 
 
 // ECE NOTES

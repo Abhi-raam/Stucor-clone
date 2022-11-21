@@ -4,6 +4,7 @@ var negotiate = require('express-negotiate')
 var path = require('path');
 var helpers = require('./helpers/news-helpers')
 var cseHelper = require('./helpers/cse-helpers')
+var civilHelper = require('./helpers/civil-helpers')
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var hbs = require('express-handlebars')
