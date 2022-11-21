@@ -1,0 +1,78 @@
+<section class="btm-footer">
+  <div class="row">
+    <div class="container">
+      {{!-- <div class="text-center pt-5">
+        <h4 class="text-primary">{{subName}}</h4>
+      </div> --}}
+      <div class="row">
+        <div class="pt-5 col-md-6">
+            <div class="text-center pt-2">
+                <h4 class="text-primary">{{subName}} ({{subCode}})</h4>
+            </div>
+          <h4 class="text-center pt-5">Study Materials</h4>
+          <table
+            class="table table-bordered text-center form table table-striped"
+            style="border:2px solid black;border-collapse:collapse;">
+            <thead>
+              <tr>
+                <th class="text-danger" style="border:2px solid black;"><h5
+                  >Notes/QP</h5></th>
+                <th class="text-danger" style="border:2px solid black;"><h5>Materials</h5></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="border:2px solid black;"><h5>Notes</h5></td>
+                <td style="border:2px solid black;"><a
+                    href="/notes/reg-13/ece/sem01/{{subCode}}-note.pdf" target="_blank"><h5>Download</h5></a></td>
+              </tr>
+              <tr>
+                <td style="border:2px solid black;"><h5>Notes</h5></td>
+                <td style="border:2px solid black;"><a
+                    href="/notes/reg-13/ece/sem01/{{subCode}}-note.pdf" target="_blank"><h5>Download</h5></a></td>
+              </tr>
+              <tr>
+                <td style="border:2px solid black;"><h5>Questions</h5></td>
+                <td style="border:2px solid black;"><a
+                    href="/notes/reg-13/ece/sem01/{{subCode}}-qp.pdf" target="_blank"><h5>Download</h5> </a></td>
+              </tr>
+              <tr>
+                <td style="border:2px solid black;"><h5>Questions</h5></td>
+                <td style="border:2px solid black;"><a
+                    href="/notes/reg-13/ece/sem01/{{subCode}}-qp.pdf" target="_blank"><h5>Download</h5> </a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-6 pl-5 pt-5">
+          <div class="text-center text-white">
+            <div class="col-md-8">
+                <h5 class="bg-primary choose p-1">Search Here</h5>
+            </div>
+            <div
+              class="searchBar text-center d-flex justify-content-center pt-3">
+              <input
+                class="form-control"
+                type="search"
+                placeholder="Search...."
+                aria-label="Search"/>
+              <button
+                class="btn btn-outline-primary"
+                type="submit">Search</button>
+            </div>
+          </div>
+          <div class="pt-5">
+            <div class="col-md-8 text-center">
+                <h5 class="bg-primary text-white p-1 choose">Latest News</h5>
+            </div>
+            <div class="pt-3 m-3">
+              {{#each news}}
+                <h6 class="pt-2"><i class="bi bi-caret-right-fill"></i><a href="/au-news/{{this.NEWS_NAME}}/{{this.NEWS_DESCRIPTION}}/{{this.NEWS_CODE}}" class="text-dark">{{this.NEWS_NAME}}</a></h6>
+                {{/each}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

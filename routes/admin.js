@@ -2,7 +2,7 @@ var db = require("../config/connection");
 var express = require("express");
 var cseHelper = require('../helpers/cse-helpers')
 var civilHelper = require('../helpers/civil-helpers')
-
+var eceHelper = require('../helpers/ece-helpers')
 var fs = require('fs')
 const { Cse13_Sem02, Cse13_Sem01, CseSem01 } = require("../config/collections");
 // const { getAllCseSem_01, getAllCseSem_02 } = require("../helpers/news-helpers");
@@ -11,6 +11,8 @@ var helpers = require("../helpers/news-helpers");
 const { response } = require("express");
 const { question } = require("readline-sync");
 const { fstat } = require("fs");
+
+
 /* GET home page. */
 router.get("/", function (req, res, next) {
   res.render("admin/admin-index", { admin: true });
@@ -887,12 +889,47 @@ router.get('/delete-civil-sem08/:id/:subcode',(req,res)=>{
 //               <----------ECE---------->
 // <----------ece sem 01---------->
 router.get('/ece/sem-01',(req,res)=>{
-  res.render('admin/notes/reg-13/ece/sem-01/sem-01-notes',{admin : true})
+  eceHelper.viewEceSem01((ecesem01)=>{
+    res.render('admin/notes/reg-13/ece/sem-01/sem-01-notes',{admin : true,ecesem01})
+  })
 })
 
 router.get('/ece/add/sem-01-notes',(req,res)=>{
   res.render('admin/notes/reg-13/ece/sem-01/add-sem-01-ece',{admin:true})
 })
+router.post('/ece/add/sem-01-notes',(req,res)=>{
+  eceHelper.addEceSem01(req.body,(code)=>{
+    let notes = req.files.Notes;
+    let question = req.files.Questions;
+    notes.mv('./public/notes/reg-13/ece/sem01/'+code+'-note.pdf',(err,done)=>{
+      if(!err){
+        res.render('admin/notes/reg-13/ece/sem-01/add-sem-01-ece',{admin:true})
+      }else{
+        console.log(err);
+      }
+    })
+    question.mv('./public/notes/reg-13/ece/sem01/'+code+'-qp.pdf',(err,done)=>{
+      if(!err){
+        res.render('admin/notes/reg-13/ece/sem-01/add-sem-01-ece',{admin:true})
+      }else{
+        console.log(err);
+      }
+    })
+  })
+})
+router.get("/delete-ece-sem01/:id/:subcode", (req, res) => {
+  let semId = req.params.id;
+  let subCode = req.params.subcode
+  eceHelper.deleteEceSem01(semId,(response)=>{
+    fs.unlink('./public/notes/reg-13/ece/sem01/'+subCode+'-note.pdf',()=>{
+      console.log('Deleted file : '+subCode+'-note.pdf');
+    })
+    fs.unlink('./public/notes/reg-13/ece/sem01/'+subCode+'-qp.pdf',()=>{
+      console.log('Deleted file : '+subCode+'-qp.pdf');
+    })
+    res.redirect('/admin/ece/sem-01')
+  })
+});
 
 // <----------ece sem 02---------->
 router.get('/ece/sem-02',(req,res)=>{

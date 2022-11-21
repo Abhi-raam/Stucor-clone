@@ -5,6 +5,7 @@ var path = require('path');
 var helpers = require('./helpers/news-helpers')
 var cseHelper = require('./helpers/cse-helpers')
 var civilHelper = require('./helpers/civil-helpers')
+var eceHelper = require('./helpers/ece-helpers')
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var hbs = require('express-handlebars')

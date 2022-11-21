@@ -3,6 +3,7 @@ var router = express.Router();
 var helpers = require('../helpers/news-helpers')
 var cseHelper = require('../helpers/cse-helpers')
 var civilHelper = require('../helpers/civil-helpers');
+var eceHelper = require('../helpers/ece-helpers')
 const { CivilSem01 } = require('../config/collections');
 
 /* GET users listing. */
@@ -293,8 +294,19 @@ router.get('/regulation_13/choose_sem_ece',(req,res)=>{
   res.render('user/regulations/regulation-13/ece/choose-ece-sem',{})
 })
 router.get('/reg_13/ece_sem01',(req,res)=>{
-  res.render('user/regulations/regulation-13/ece/ece-sem01',{})
+  eceHelper.viewEceSem01((ecesem01)=>{
+    res.render('user/regulations/regulation-13/ece/ece-sem01',{ecesem01})
+  })
 })
+router.get('/reg_13/ece-sem01notes/:code/:name',(req,res)=>{ 
+  subCode = req.params.code
+  subName = req.params.name
+  helpers.getAllNews().then((news)=>{
+    res.render('user/regulations/regulation-13/ece/ece-sem01notes',{subCode,subName,news})
+  })
+})
+
+
 router.get('/reg_13/ece_sem02',(req,res)=>{
   res.render('user/regulations/regulation-13/ece/ece-sem02',{})
 })
