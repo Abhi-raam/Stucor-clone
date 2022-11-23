@@ -39,6 +39,19 @@ module.exports = {
         db.get().collection(collection.EceSem02).remove({_id:objectID(semId)})
         resolve(response)
     })
+    },
+    addEceSem03 : (ecesem03,callback)=>{
+        db.get().collection(collection.EceSem03).insertOne(ecesem03).then((data)=>{
+            callback(ecesem03.Subject_code)
+        })
+    },
+    viewEceSem03 :async (callback)=>{
+        let ecesem03 = await db.get().collection(collection.EceSem03).find().toArray()
+        callback(ecesem03)
+    },
+    deleteEceSem03 :(semId,callback)=>{
+        db.get().collection(collection.EceSem03).remove({_id:objectID(semId)})
+        callback(true)
     }
 
 }
