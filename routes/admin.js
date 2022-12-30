@@ -1023,29 +1023,132 @@ router.get("/delete-ece-sem03/:id/:subcode", (req, res) => {
 
 // <----------civil sem 04---------->
 router.get('/ece/sem-04',(req,res)=>{
-  res.render('admin/notes/reg-13/ece/sem-04/sem-04-notes',{admin : true})
+  eceHelper.viewEceSem04((ecesem04)=>{
+    res.render('admin/notes/reg-13/ece/sem-04/sem-04-notes',{admin : true,ecesem04})
+  })
 })
 
 router.get('/ece/add/sem-04-notes',(req,res)=>{
   res.render('admin/notes/reg-13/ece/sem-04/add-sem-04-ece',{admin:true})
 })
+router.post('/ece/add/sem-04-notes',(req,res)=>{
+  eceHelper.addEceSem04(req.body,(code)=>{
+    let notes = req.files.Notes;
+    let question = req.files.Questions;
+    notes.mv('./public/notes/reg-13/ece/sem04/'+code+'-note.pdf',(err,done)=>{
+      if(!err){
+        res.render('admin/notes/reg-13/ece/sem-04/add-sem-04-ece',{admin:true})
+      }else{
+        console.log(err);
+      }
+    })
+    question.mv('./public/notes/reg-13/ece/sem04/'+code+'-qp.pdf',(err,done)=>{
+      if(!err){
+        res.render('admin/notes/reg-13/ece/sem-04/add-sem-04-ece',{admin:true})
+      }else{
+        console.log(err);
+      }
+    })
+  })
+})
+
+router.get("/delete-ece-sem04/:id/:subcode", (req, res) => {
+  let semId = req.params.id;
+  let subCode = req.params.subcode
+  eceHelper.deleteEceSem04(semId,(callback)=>{
+    fs.unlink('./public/notes/reg-13/ece/sem04/'+subCode+'-note.pdf',()=>{
+      console.log('Deleted file : '+subCode+'-note.pdf');
+    })
+    fs.unlink('./public/notes/reg-13/ece/sem04/'+subCode+'-qp.pdf',()=>{
+      console.log('Deleted file : '+subCode+'-qp.pdf');
+    })
+    res.redirect('/admin/ece/sem-04')
+  })
+})
 
 // <----------ece sem 05---------->
 router.get('/ece/sem-05',(req,res)=>{
-  res.render('admin/notes/reg-13/ece/sem-05/sem-05-notes',{admin : true})
+  eceHelper.viewEceSem05().then((ecesem05)=>{
+    res.render('admin/notes/reg-13/ece/sem-05/sem-05-notes',{admin : true,ecesem05})
+  })
 })
 
 router.get('/ece/add/sem-05-notes',(req,res)=>{
   res.render('admin/notes/reg-13/ece/sem-05/add-sem-05-ece',{admin:true})
 })
+router.post('/ece/add/sem-05-notes',(req,res)=>{
+  eceHelper.addEceSem05(req.body).then((code)=>{
+    let notes = req.files.Notes
+    let question = req.files.Questions
+    notes.mv('./public/notes/reg-13/ece/sem05/'+code+'-note.pdf',(err,done)=>{
+      if(!err){
+        res.render('admin/notes/reg-13/ece/sem-05/add-sem-05-ece',{admin:true})
+      }
+    })
+    question.mv('./public/notes/reg-13/ece/sem05/'+code+'-qp.pdf',(err,done)=>{
+      if(!err){
+        res.render('admin/notes/reg-13/ece/sem-05/add-sem-05-ece',{admin:true})
+      }
+    })
+  })
+})
 
+router.get('/delete-ece-sem05/:id/:subcode',(req,res)=>{
+  let semId = req.params.id
+  let subCode = req.params.subcode
+  eceHelper.deleteEceSem05(semId).then((response)=>{
+    fs.unlink('./public/notes/reg-13/ece/sem05/'+subCode+'-note.pdf',()=>{
+      console.log('Deleted file : '+subCode+'-note.pdf');
+    })
+    fs.unlink('./public/notes/reg-13/ece/sem05/'+subCode+'-qp.pdf',()=>{
+      console.log('Deleted file : '+subCode+'-qp.pdf');
+    })
+    res.redirect('/admin/ece/sem-05')
+  })
+})
 // <----------ece sem 06---------->
 router.get('/ece/sem-06',(req,res)=>{
-  res.render('admin/notes/reg-13/ece/sem-06/sem-06-notes',{admin : true})
+  eceHelper.viewEceSem06((ecesem06)=>{
+    res.render('admin/notes/reg-13/ece/sem-06/sem-06-notes',{admin : true,ecesem06})
+  })
 })
 
 router.get('/ece/add/sem-06-notes',(req,res)=>{
   res.render('admin/notes/reg-13/ece/sem-06/add-sem-06-ece',{admin:true})
+})
+router.post('/ece/add/sem-06-notes',(req,res)=>{
+  eceHelper.addEceSem06(req.body,(code)=>{
+    let notes = req.files.Notes;
+    let question = req.files.Questions;
+    notes.mv('./public/notes/reg-13/ece/sem06/'+code+'-note.pdf',(err,done)=>{
+      if(!err){
+        res.render('admin/notes/reg-13/ece/sem-06/add-sem-06-ece',{admin:true})
+      }else{
+        console.log(err);
+      }
+    })
+    question.mv('./public/notes/reg-13/ece/sem06/'+code+'-qp.pdf',(err,done)=>{
+      if(!err){
+        res.render('admin/notes/reg-13/ece/sem-06/add-sem-06-ece',{admin:true})
+      }else{
+        console.log(err);
+      }
+    })
+  })
+})
+
+router.get("/delete-ece-sem06/:id/:subcode", (req, res) => {
+  let semId = req.params.id
+  let subCode = req.params.subcode
+  eceHelper.deleteEceSem06(semId,(callback)=>{
+    fs.unlink('./public/notes/reg-13/ece/sem06/'+subCode+'-note.pdf',()=>{
+      console.log('Deleted file : '+subCode+'-note.pdf');
+    })
+    fs.unlink('./public/notes/reg-13/ece/sem06/'+subCode+'-qp.pdf',()=>{
+      console.log('Deleted file : '+subCode+'-qp.pdf');
+    })
+    res.redirect('/admin/ece/sem-06')
+  })
 })
 
 // <----------ece sem 07---------->

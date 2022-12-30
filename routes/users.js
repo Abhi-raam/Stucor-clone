@@ -334,14 +334,45 @@ router.get('/reg_13/ece-sem03notes/:code/:name',(req,res)=>{
 })
 
 router.get('/reg_13/ece_sem04',(req,res)=>{
-  res.render('user/regulations/regulation-13/ece/ece-sem04',{})
+  eceHelper.viewEceSem04((ecesem04)=>{
+    res.render('user/regulations/regulation-13/ece/ece-sem04',{ecesem04})
+  })
 })
+router.get('/reg_13/ece-sem04notes/:code/:name',(req,res)=>{ 
+  subCode = req.params.code
+  subName = req.params.name
+  helpers.getAllNews().then((news)=>{
+    res.render('user/regulations/regulation-13/ece/ece-sem04notes',{subCode,subName,news})
+  })
+})
+
+
 router.get('/reg_13/ece_sem05',(req,res)=>{
-  res.render('user/regulations/regulation-13/ece/ece-sem05',{})
+  eceHelper.viewEceSem05().then((ecesem05)=>{
+    res.render('user/regulations/regulation-13/ece/ece-sem05',{ecesem05})
+  })
 })
+router.get('/reg_13/ece-sem05notes/:code/:name',(req,res)=>{
+  subCode = req.params.code
+  subName = req.params.name
+  helpers.getAllNews().then((news)=>{
+    res.render('user/regulations/regulation-13/ece/ece-sem05notes',{subCode,subName,news})
+  })
+})
+
 router.get('/reg_13/ece_sem06',(req,res)=>{
-  res.render('user/regulations/regulation-13/ece/ece-sem06',{})
+  eceHelper.viewEceSem06((ecesem06)=>{
+    res.render('user/regulations/regulation-13/ece/ece-sem06',{ecesem06})
+  })
 })
+router.get('/reg_13/ece-sem06notes/:code/:name',(req,res)=>{
+  subCode = req.params.code
+  subName = req.params.name
+  helpers.getAllNews().then((news)=>{
+    res.render('user/regulations/regulation-13/ece/ece-sem06notes',{subCode,subName,news})
+  })
+})
+
 router.get('/reg_13/ece_sem07',(req,res)=>{
   res.render('user/regulations/regulation-13/ece/ece-sem07',{})
 })

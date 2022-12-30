@@ -52,6 +52,50 @@ module.exports = {
     deleteEceSem03 :(semId,callback)=>{
         db.get().collection(collection.EceSem03).remove({_id:objectID(semId)})
         callback(true)
+    },
+    addEceSem04 : (ecesem04,callback)=>{
+        db.get().collection(collection.EceSem04).insertOne(ecesem04).then((data)=>{
+            callback(ecesem04.Subject_code)
+        })
+    },
+    viewEceSem04 : async(callback)=>{
+        let ecesem04 = await db.get().collection(collection.EceSem04).find().toArray()
+        callback(ecesem04)
+    },
+    deleteEceSem04 : (semId,callback)=>{
+        db.get().collection(collection.EceSem04).remove({_id:objectID(semId)})
+        callback(true)
+    },
+    addEceSem05 :(ecesem05)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.EceSem05).insertOne(ecesem05)
+            resolve(ecesem05.Subject_code)
+        })
+    },
+    viewEceSem05 :()=>{
+        return new Promise(async(resolve,reject)=>{
+            let ecesem05 = await db.get().collection(collection.EceSem05).find().toArray()
+            resolve(ecesem05)
+        })
+    },
+    deleteEceSem05 : (semId)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.EceSem05).remove({_id:objectID(semId)})
+            resolve(response)
+        })
+    },
+    addEceSem06 : (ecesem06,callback)=>{
+        db.get().collection(collection.EceSem06).insertOne(ecesem06).then((data)=>{
+            callback(ecesem06.Subject_code)
+        })
+    },
+    viewEceSem06 : async(callback)=>{
+        let ecesem06 = await db.get().collection(collection.EceSem06).find().toArray()
+        callback(ecesem06)
+    },
+    deleteEceSem06 : (semId,callback)=>{
+        db.get().collection(collection.EceSem06).remove({_id:objectID(semId)})
+        callback(true)
     }
 
 }
