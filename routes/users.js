@@ -4,6 +4,7 @@ var helpers = require('../helpers/news-helpers')
 var cseHelper = require('../helpers/cse-helpers')
 var civilHelper = require('../helpers/civil-helpers');
 var eceHelper = require('../helpers/ece-helpers')
+var mechHelpers = require('../helpers/mech-helpers')
 const { CivilSem01 } = require('../config/collections');
 
 /* GET users listing. */
@@ -374,10 +375,30 @@ router.get('/reg_13/ece-sem06notes/:code/:name',(req,res)=>{
 })
 
 router.get('/reg_13/ece_sem07',(req,res)=>{
-  res.render('user/regulations/regulation-13/ece/ece-sem07',{})
+  eceHelper.viewEceSem07().then((ecesem07)=>{
+    res.render('user/regulations/regulation-13/ece/ece-sem07',{ecesem07})
+  })
 })
+
+router.get('/reg_13/ece-sem07notes/:code/:name',(req,res)=>{
+  subCode = req.params.code
+  subName = req.params.name
+  helpers.getAllNews().then((news)=>{
+    res.render('user/regulations/regulation-13/ece/ece-sem07notes',{subCode,subName,news})
+  })
+})
+
 router.get('/reg_13/ece_sem08',(req,res)=>{
-  res.render('user/regulations/regulation-13/ece/ece-sem08',{})
+  eceHelper.viewEceSem08((ecesem08)=>{
+    res.render('user/regulations/regulation-13/ece/ece-sem08',{ecesem08})
+  })
+})
+router.get('/reg_13/ece-sem08notes/:code/:name',(req,res)=>{
+  subCode = req.params.code
+  subName = req.params.name
+  helpers.getAllNews().then((news)=>{
+    res.render('user/regulations/regulation-13/ece/ece-sem08notes',{subCode,subName,news})
+  })
 })
 
 
@@ -387,29 +408,110 @@ router.get('/reg_13/ece_sem08',(req,res)=>{
 router.get('/regulation_13/choose_sem_mech',(req,res)=>{
   res.render('user/regulations/regulation-13/mech/choose-mech-sem',{})
 })
+
+// mech sem01
 router.get('/reg_13/mech_sem01',(req,res)=>{
-  res.render('user/regulations/regulation-13/mech/mech-sem01',{})
+  mechHelpers.viewMechSem01((mechsem01)=>{
+    res.render('user/regulations/regulation-13/mech/mech-sem01',{mechsem01})
+  })
 })
+router.get('/reg_13/mech-sem01notes/:code/:name',(req,res)=>{
+  subCode = req.params.code
+  subName = req.params.name
+  helpers.getAllNews().then((news)=>{
+    res.render('user/regulations/regulation-13/mech/mech-sem01notes',{subCode,subName,news})
+  })
+})
+// mech sem02
 router.get('/reg_13/mech_sem02',(req,res)=>{
-  res.render('user/regulations/regulation-13/mech/mech-sem02',{})
+  mechHelpers.viewMechSem02().then((mechsem02=>{
+    res.render('user/regulations/regulation-13/mech/mech-sem02',{mechsem02})
+  }))
 })
+router.get('/reg_13/mech-sem02notes/:code/:name',(req,res)=>{
+  subCode = req.params.code
+  subName = req.params.name
+  helpers.getAllNews().then((news)=>{
+    res.render('user/regulations/regulation-13/mech/mech-sem02notes',{subCode,subName,news})
+  })
+})
+// mech sem 03
 router.get('/reg_13/mech_sem03',(req,res)=>{
-  res.render('user/regulations/regulation-13/mech/mech-sem03',{})
+  mechHelpers.viewMechSem03((mechsem03)=>{
+    res.render('user/regulations/regulation-13/mech/mech-sem03',{mechsem03})
+  })
 })
+router.get('/reg_13/mech-sem03notes/:code/:name',(req,res)=>{
+  subCode = req.params.code
+  subName = req.params.name
+  helpers.getAllNews().then((news)=>{
+    res.render('user/regulations/regulation-13/mech/mech-sem03notes',{subCode,subName,news})
+  })
+})
+// mech sem 04
 router.get('/reg_13/mech_sem04',(req,res)=>{
-  res.render('user/regulations/regulation-13/mech/mech-sem04',{})
+  mechHelpers.viewMechSem04((mechsem04)=>{
+    res.render('user/regulations/regulation-13/mech/mech-sem04',{mechsem04})
+  })
 })
+router.get('/reg_13/mech-sem04notes/:code/:name',(req,res)=>{
+  subCode = req.params.code
+  subName = req.params.name
+  helpers.getAllNews().then((news)=>{
+    res.render('user/regulations/regulation-13/mech/mech-sem04notes',{subCode,subName,news})
+  })
+})
+// mech sem 05
 router.get('/reg_13/mech_sem05',(req,res)=>{
-  res.render('user/regulations/regulation-13/mech/mech-sem05',{})
+  mechHelpers.viewMechSem05((mechsem05)=>{
+    res.render('user/regulations/regulation-13/mech/mech-sem05',{mechsem05})
+  })
 })
+router.get('/reg_13/mech-sem05notes/:code/:name',(req,res)=>{
+  subCode = req.params.code
+  subName = req.params.name
+  helpers.getAllNews().then((news)=>{
+    res.render('user/regulations/regulation-13/mech/mech-sem05notes',{subCode,subName,news})
+  })
+})
+// mech sem 06
 router.get('/reg_13/mech_sem06',(req,res)=>{
-  res.render('user/regulations/regulation-13/mech/mech-sem06',{})
+  mechHelpers.viewMechSem06((mechsem06)=>{
+    res.render('user/regulations/regulation-13/mech/mech-sem06',{mechsem06})
+  })
 })
+router.get('/reg_13/mech-sem06notes/:code/:name',(req,res)=>{
+  subCode = req.params.code
+  subName = req.params.name
+  helpers.getAllNews().then((news)=>{
+    res.render('user/regulations/regulation-13/mech/mech-sem06notes',{subCode,subName,news})
+  })
+})
+// mech sem 07
 router.get('/reg_13/mech_sem07',(req,res)=>{
-  res.render('user/regulations/regulation-13/mech/mech-sem07',{})
+  mechHelpers.viewMechSem07((mechsem07)=>{
+    res.render('user/regulations/regulation-13/mech/mech-sem07',{mechsem07})
+  })
 })
+router.get('/reg_13/mech-sem07notes/:code/:name',(req,res)=>{
+  subCode = req.params.code
+  subName = req.params.name
+  helpers.getAllNews().then((news)=>{
+    res.render('user/regulations/regulation-13/mech/mech-sem07notes',{subCode,subName,news})
+  })
+})
+// mech sem 08
 router.get('/reg_13/mech_sem08',(req,res)=>{
-  res.render('user/regulations/regulation-13/mech/mech-sem08',{})
+  mechHelpers.viewMechSem08((mechsem08)=>{
+    res.render('user/regulations/regulation-13/mech/mech-sem08',{mechsem08})
+  })
+})
+router.get('/reg_13/mech-sem08notes/:code/:name',(req,res)=>{
+  subCode = req.params.code
+  subName = req.params.name
+  helpers.getAllNews().then((news)=>{
+    res.render('user/regulations/regulation-13/mech/mech-sem08notes',{subCode,subName,news})
+  })
 })
 
 

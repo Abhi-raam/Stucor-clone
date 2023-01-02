@@ -22,7 +22,7 @@ module.exports = {
         .find()
         .sort({ NEWS_DATE: -1 })
         .toArray();
-      reslove(news);
+      reslove(news,news);
     });
   },
 

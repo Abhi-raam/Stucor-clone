@@ -1,7 +1,7 @@
 var db = require("../config/connection");
 var collection = require("../config/collections");
 const { response } = require("../app");
-const { Collection } = require("mongodb");
+const { Collection, ObjectId } = require("mongodb");
 const { CivilSem01 } = require("../config/collections");
 var objectID = require("mongodb").ObjectId;
 
@@ -95,6 +95,36 @@ module.exports = {
     },
     deleteEceSem06 : (semId,callback)=>{
         db.get().collection(collection.EceSem06).remove({_id:objectID(semId)})
+        callback(true)
+    },
+    addEceSem07 : (ecesem07)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.EceSem07).insertOne(ecesem07)
+            resolve(ecesem07.Subject_code)
+        })
+    },
+    viewEceSem07 : ()=>{
+        return new Promise(async(resolve,reject)=>{
+            let ecesem07 = await db.get().collection(collection.EceSem07).find().toArray()
+            resolve(ecesem07)
+        })
+    },
+    deleteEceSem07 :(semId)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.EceSem07).remove({_id:ObjectId(semId)})
+            resolve(true)
+        })
+    },
+    addEceSem08 :(ecesem08,callback)=>{
+        db.get().collection(collection.EceSem08).insertOne(ecesem08)
+        callback(ecesem08.Subject_code)
+    },
+    viewEceSem08 : async(callback)=>{
+        let ecesem08 = await db.get().collection(collection.EceSem08).find().toArray()
+        callback(ecesem08)
+    },
+    deleteEceSem08 : (semId,callback)=>{
+        db.get().collection(collection.EceSem08).remove({_id:objectID(semId)})
         callback(true)
     }
 

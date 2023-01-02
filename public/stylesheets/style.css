@@ -111,3 +111,11 @@ body{
 /* Google Fonts Import Link */
 /* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap'); */
 
+/* result section of user */
+.result{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5rem;
+  border-radius: 30px;
+}
