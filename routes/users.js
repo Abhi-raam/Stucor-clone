@@ -38,8 +38,8 @@ router.get('/au-news/:name/:newsDescription/:code',(req,res)=>{
   newsName = req.params.name
   newsDescription = req.params.newsDescription
   newsCode = req.params.code
-  console.log(newsDescription);
-  console.log(newsName);
+  // console.log(newsDescription);
+  // console.log(newsName);
   helpers.getAllNews().then((news)=>{
     res.render('user/AU-news/au-news-details',{newsName,newsDescription,newsCode,news})
   })
@@ -49,7 +49,6 @@ router.get('/au-news', (req, res, next) => {
     // console.log(news);
     res.render('user/au-news', { news })
   })
-
 })
 
 

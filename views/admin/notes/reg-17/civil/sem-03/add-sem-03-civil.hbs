@@ -40,6 +40,7 @@
                 <div class="form-group">
                     <label for="formGroupExampleInput">QUESTIONS</label>
                     <input type="file" class="form-control" name="Questions" >
+                    <input type="hidden" class="form-control " id="current-date" name="Sem_date">
                 </div>
                 <div>
                     <button type="submit" class="btn btn-primary">Add</button>
@@ -49,3 +50,14 @@
         </div>
     </div>
 </section>
+
+<script>
+  var today = new Date()
+  var dateString = today.toDateString()
+  var dateComponents = dateString.split(" ")
+  var day = dateComponents[2]
+  var month = dateComponents[1]
+  var year = dateComponents[3]
+  //document.getElementById("current-date").value = today.toDateString()
+  document.getElementById("current-date").value = day + " " + month + " " + year
+</script>

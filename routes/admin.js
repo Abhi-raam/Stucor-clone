@@ -41,7 +41,7 @@ router.post('/edit-news/:id/:code',(req,res)=>{
 
 router.get('/edit-news/:id',async(req,res)=>{
   let news = await helpers.getNewsDetails(req.params.id)
-  console.log(news);
+  // console.log(news);
   res.render('admin/edit-news',{admin:true,news})
 })
 

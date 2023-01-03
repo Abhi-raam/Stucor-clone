@@ -119,3 +119,12 @@ body{
   margin-top: 5rem;
   border-radius: 30px;
 }
+
+.scrolll{
+  overflow: auto;
+  overflow-x: hidden;
+  height: 18.5rem;
+}
+.scrolll::-webkit-scrollbar{
+  display: none;
+}

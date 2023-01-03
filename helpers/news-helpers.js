@@ -11,6 +11,7 @@ module.exports = {
       .insertOne(news)
       .then((data) => {
         callback(news.NEWS_CODE);
+        console.log(news);
       });
   },
 
@@ -20,9 +21,10 @@ module.exports = {
         .get()
         .collection(collection.AUnews)
         .find()
-        .sort({ NEWS_DATE: -1 })
+        .sort({NEWS_DATE :1 })
         .toArray();
-      reslove(news,news);
+      reslove(news);
+      // console.log(news);
     });
   },
 
