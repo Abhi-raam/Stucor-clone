@@ -42,6 +42,7 @@
           {{!-- <input type="date"  id="current-date" class="form-control someclass" name="NEWS_DATE" /> --}}
           <label for="current-date">DAte</label>
           <input type="text" class="form-control " id="current-date" name="NEWS_DATE">
+          <input type="text" name="News_date" id="current-date-int" hidden >
         </div>
         <div>
           <button type="submit" class="btn btn-primary">Add</button>
@@ -60,4 +61,6 @@
   var year = dateComponents[3]
   //document.getElementById("current-date").value = today.toDateString()
   document.getElementById("current-date").value = day + " " + month + " " + year
+
+  document.getElementById("current-date-int").value = today.toISOString()
 </script>

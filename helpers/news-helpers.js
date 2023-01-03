@@ -21,7 +21,7 @@ module.exports = {
         .get()
         .collection(collection.AUnews)
         .find()
-        .sort({NEWS_DATE :1 })
+        .sort({News_date : -1 })
         .toArray();
       reslove(news);
       // console.log(news);
