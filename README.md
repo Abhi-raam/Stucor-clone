@@ -1,0 +1,2 @@
+# Stucor clone
+This is a clone of stucor website which is mostly used by Anna University students to view and download their semester notes, get the latest news regarding academics and can also download their semester results.
