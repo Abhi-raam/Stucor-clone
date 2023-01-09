@@ -1,2 +1,3 @@
 # Stucor clone
 This is a clone of stucor website which is mostly used by Anna University students to view and download their semester notes, get the latest news regarding academics and can also download their semester results.
+In this cloned version of stucor admin can add, delete semester notes which will be added and deleted from mongodb. Admin can also add,remove,update news regarding university and academics.
